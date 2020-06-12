@@ -13,7 +13,7 @@ def WhatIsMyIp(addrIp, url):
     soup = bs4.BeautifulSoup(r.content.decode(), "html.parser")
     dicoInformations = {}
     for i in soup.find_all("tr")[:-1]:
-        s=i.text.split(":")
+        s=i.text.split(":", 1)
         k, v=s[0], s[1]
         dicoInformations.update({k:v})
     for i in dicoInformations.items():
@@ -53,7 +53,10 @@ for o in opt:
     if o[0] == "--map":
         Map = True
 
-if Ip == True:
-    info = WhatIsMyIp(addrIp, url)
-if Map == True:
-    OpenMap(info)
+try:
+    if Ip == True:
+        info = WhatIsMyIp(addrIp, url)
+    if Map == True:
+        OpenMap(info)
+except (IndexError, NameError):
+    print("[-] Erreur avec les paramètres.")
